@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.poi:ooxml-schemas:1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/ooxml-schemas/1.4/147993bd2ef26de9e54728f6762011c8c6b8cda7/ooxml-schemas-1.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/ooxml-schemas/1.4/dc9336fc2ccb8478d2cc88b8740e3bb0d1ebd362/ooxml-schemas-1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

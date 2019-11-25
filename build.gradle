@@ -22,6 +22,7 @@ dependencies {
             [group: 'org.apache.poi', name: 'ooxml-schemas', version: '[1.4,)'],
             [group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.0'],
             [group: 'org.jdom', name: 'jdom2', version: '[2.0,)'],
-            fileTree(dir: "$System.env.JAVA_PROJECTS_HOME/idea/Options/out/artifacts/Options_jar", include: '*.jar')
+            fileTree(dir: "../Options/out/artifacts/Options_jar", include: '*.jar')
+//            fileTree(dir: "$System.env.JAVA_PROJECTS_HOME/idea/Options/out/artifacts/Options_jar", include: '*.jar')
     )
 }
