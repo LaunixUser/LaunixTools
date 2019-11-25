@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author Dr. Matthias Laux
  */
 public class ConnectionManager {
@@ -51,7 +50,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @param connectionData
      */
     public static void init(ConnectionData connectionData) {
@@ -63,7 +61,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @param connection
      */
     public static void init(Connection connection) {
@@ -75,7 +72,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @return
      */
     public static ConnectionManager getInstance() {
@@ -86,7 +82,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @return @throws ClassNotFoundException
      * @throws IllegalAccessException
      * @throws SQLException
@@ -101,7 +96,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @throws SQLException
      */
     public void closeConnection() throws SQLException {
@@ -111,7 +105,6 @@ public class ConnectionManager {
     }
 
     /**
-     *
      * @param sql
      * @return
      * @throws ClassNotFoundException
