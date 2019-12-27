@@ -1,4 +1,4 @@
-rootProject.name = 'LaunixTools'
+rootProject.name = 'launix-tools'
 
 includeBuild '../Options'
 
