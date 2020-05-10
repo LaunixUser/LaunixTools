@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'org.ml'
-version '2.0.1'
+version '2.0.2'
 
 sourceCompatibility = 1.8
 
@@ -23,7 +23,5 @@ dependencies {
             [group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.0'],
             [group: 'org.jdom', name: 'jdom2', version: '[2.0,)'],
             [group: 'org.ml', name: 'options', version: '[2.0,)']
-//            fileTree(dir: "../Options/build/libs", include: '*.jar')
-//            fileTree(dir: "$System.env.JAVA_PROJECTS_HOME/idea/Options/out/artifacts/Options_jar", include: '*.jar')
     )
 }

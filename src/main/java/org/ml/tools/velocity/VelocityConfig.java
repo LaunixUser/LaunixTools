@@ -68,7 +68,6 @@ public class VelocityConfig {
     /**
      * @param namespace
      * @param propertyManager
-     * @throws Exception
      */
     public VelocityConfig(Namespace namespace, PropertyManager propertyManager) {
         if (namespace == null) {
