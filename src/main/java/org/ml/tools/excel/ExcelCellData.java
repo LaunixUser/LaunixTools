@@ -41,15 +41,8 @@ public class ExcelCellData {
     public static final String ERROR_CONDITION_ILLEGAL_STATE = "ERROR-ILLEGAL-STATE";
     public static final double ERROR_CONDITION_VALUE = Double.NEGATIVE_INFINITY;
     private Cell cell;
-    private String rawData = "";
-    private String processedData = "";
-    private Comparable processedComparableData;
-//    private boolean flag = false;
-//    private String formula = "";
-    private double numberData = 0.0d;
     private boolean emptyCell = true;
-//    private CellStyle style = null;
-    private DataFormatter dataFormatter = new DataFormatter();
+    private final DataFormatter dataFormatter = new DataFormatter();
 
     /**
      *
@@ -70,15 +63,109 @@ public class ExcelCellData {
     }
 
     /**
+     * Make a best effort to extract a Comparable object from the cell data
      *
      * @return
      */
     public Comparable getValue() {
-        rawData = dataFormatter.formatCellValue(cell).trim();
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
+//        rawData = dataFormatter.formatCellValue(cell).trim();
+//        return null;
     }
 
     /**
+     * Make a best effort to extract a String object from the cell data
+     *
+     * @return
+     */
+    public String getProcessedData() {
+        if (isEmptyCell()) {
+            return (String) DataType.TypeString.getDefaultValue();
+        }
+        switch (cell.getCellType()) {
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:      // One of CellType.NUMERIC, CellType.STRING, CellType.BOOLEAN, CellType.ERROR
+                int a1 = 0;   // Dummy for correct Netbeans formatting
+                try {
+                    return String.valueOf(cell.getNumericCellValue());
+                } catch (IllegalStateException ex1) {
+                    try {
+                        return String.valueOf(cell.getBooleanCellValue());
+                    } catch (IllegalStateException ex2) {
+                        return cell.getStringCellValue();
+                    }
+                }
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BLANK:
+            case STRING:
+                return cell.getStringCellValue();
+            case ERROR:
+            case _NONE:
+                throw new UnsupportedOperationException("Unsupported POI cell type: " + cell.getCellType());
+            default:
+                throw new UnsupportedOperationException("Unknown POI cell type: " + cell.getCellType());
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getRawData() {
+        if (isEmptyCell()) {
+            return (String) DataType.TypeString.getDefaultValue();
+        } else {
+            return dataFormatter.formatCellValue(cell).trim();
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public double getNumberData() {
+        if (isEmptyCell()) {
+            return (Double) DataType.TypeDouble.getDefaultValue();
+        }
+
+        switch (cell.getCellType()) {
+            case STRING:
+                int a0 = 0;   // Dummy for correct Netbeans formatting
+                try {
+                    return Double.valueOf(cell.getStringCellValue());
+                } catch (NumberFormatException ex) {
+                    return (Double) DataType.TypeDouble.getDefaultValue();
+                }
+            case NUMERIC:
+                return cell.getNumericCellValue();
+            case FORMULA:      // One of CellType.NUMERIC, CellType.STRING, CellType.BOOLEAN, CellType.ERROR
+                int a1 = 0;   // Dummy for correct Netbeans formatting
+                try {
+                    return cell.getNumericCellValue();
+                } catch (IllegalStateException ex1) {
+                    try {
+                        return Double.valueOf(cell.getStringCellValue());
+                    } catch (IllegalStateException ex2) {
+                        return (Double) DataType.TypeDouble.getDefaultValue();
+                    }
+                }
+            case BOOLEAN:
+            case BLANK:
+                return (Double) DataType.TypeDouble.getDefaultValue();
+            case ERROR:
+            case _NONE:
+                throw new UnsupportedOperationException("Unsupported POI cell type: " + cell.getCellType());
+            default:
+                throw new UnsupportedOperationException("Unknown POI cell type: " + cell.getCellType());
+        }
+
+    }
+
+    /**
+     * Try to extract a Comparable object of the target DataType from the cell
+     * data
      *
      * @param targetDataType
      * @return
@@ -88,12 +175,12 @@ public class ExcelCellData {
             throw new NullPointerException("targetDataType may not be null");
         }
 
-        //.... We have no dtaa, therefore we return the default
+        //.... We have no data, therefore we return the default
         if (isEmptyCell()) {
             return targetDataType.getDefaultValue();
         }
 
-        rawData = dataFormatter.formatCellValue(cell).trim();
+        String rawData = dataFormatter.formatCellValue(cell).trim();
         CellType cellType = cell.getCellType();
         if (cell.getCellType().equals(CellType.FORMULA)) {
             cellType = cell.getCachedFormulaResultType();   // One of CellType.NUMERIC, CellType.STRING, CellType.BOOLEAN, CellType.ERROR
@@ -109,7 +196,7 @@ public class ExcelCellData {
                     case TypeInteger:
                         return (int) cell.getNumericCellValue();
                     case TypeIntegerPercentage:
-                        return 100 * (int) cell.getNumericCellValue();
+                        return  (int)Math.round(100.0d * cell.getNumericCellValue());
                     default:
                         throw new UnsupportedOperationException("Can not extract " + targetDataType + " from raw data " + rawData);
                 }
@@ -130,35 +217,40 @@ public class ExcelCellData {
                 String s = cell.getStringCellValue().trim();
                 switch (targetDataType) {
                     case TypeDouble:
+                        int a1 = 0;   // Dummy for correct Netbeans formatting
                         try {
-                        return Double.valueOf(s);
-                    } catch (NumberFormatException ex) {
-                        return targetDataType.getDefaultValue();
-                    }
+                            return Double.valueOf(s);
+                        } catch (NumberFormatException ex) {
+                            return targetDataType.getDefaultValue();
+                        }
                     case TypeDoublePercentage:
+                        int a2 = 0;   // Dummy for correct Netbeans formatting
                         try {
-                        return 100.d * Double.valueOf(s);
-                    } catch (NumberFormatException ex) {
-                        return targetDataType.getDefaultValue();
-                    }
+                            return 100.d * Double.valueOf(s);
+                        } catch (NumberFormatException ex) {
+                            return targetDataType.getDefaultValue();
+                        }
                     case TypeInteger:
+                        int a3 = 0;   // Dummy for correct Netbeans formatting
                         try {
-                        return Integer.valueOf(s);
-                    } catch (NumberFormatException ex) {
-                        return targetDataType.getDefaultValue();
-                    }
+                            return Integer.valueOf(s);
+                        } catch (NumberFormatException ex) {
+                            return targetDataType.getDefaultValue();
+                        }
                     case TypeIntegerPercentage:
-                                try {
-                        return 100 * Integer.valueOf(s);
-                    } catch (NumberFormatException ex) {
-                        return targetDataType.getDefaultValue();
-                    }
+                        int a4 = 0;   // Dummy for correct Netbeans formatting
+                        try {
+                            return 100 * Integer.valueOf(s);
+                        } catch (NumberFormatException ex) {
+                            return targetDataType.getDefaultValue();
+                        }
                     case TypeBoolean:
-                   try {
-                        return Boolean.valueOf(s);
-                    } catch (NumberFormatException ex) {
-                        return targetDataType.getDefaultValue();
-                    }
+                        int a5 = 0;   // Dummy for correct Netbeans formatting
+                        try {
+                            return Boolean.valueOf(s);
+                        } catch (NumberFormatException ex) {
+                            return targetDataType.getDefaultValue();
+                        }
                     case TypeEmail:
                     case TypeString:
                         return s;
@@ -182,183 +274,3 @@ public class ExcelCellData {
         return emptyCell;
     }
 }
-
-//        try {
-//            switch (cell.getCellType()) {
-//
-//            case FORMULA:
-//
-//                CellType resultType = cell.getCachedFormulaResultType();
-//                switch (resultType) {
-//                    case STRING:
-//                        processedData = cell.getStringCellValue();
-//                        processedComparableData = processedData;
-//                        break;
-//                    case NUMERIC:
-//                        double numberData = cell.getNumericCellValue();
-//                        processedData = String.valueOf(numberData);
-//                        processedComparableData = numberData;
-//                        break;
-//                    case BOOLEAN:
-//                        boolean d2 = cell.getBooleanCellValue();
-//                        processedData = String.valueOf(d2);
-//                        processedComparableData = d2;
-//                        break;
-//                    case ERROR:
-//                        byte d3 = cell.getErrorCellValue();
-//                        processedData = String.valueOf(d3);
-//                        processedComparableData = d3;
-//                        break;
-//                    default:
-//                        throw new UnsupportedOperationException("This should not happen according to the Apache POI docmentation");
-//                }
-//                break;
-//
-//            // Numeric cell type (whole numbers, fractional numbers, dates)
-//            case NUMERIC:
-//
-//                String dataFormatString = cell.getCellStyle().getDataFormatString();
-//                if (dataFormatString.endsWith("%")) {
-//                    System.out.println("TTT2 " + cell.getNumericCellValue());
-//                }
-//
-//                try {
-//
-//                    numberData = cell.getNumericCellValue();
-//                    processedData = String.valueOf(numberData);
-//                    processedComparableData = numberData;
-//
-//                } catch (NumberFormatException ex1) {
-//
-//                    try {
-//
-//                        boolean d2 = cell.getBooleanCellValue();
-//                        processedData = String.valueOf(d2);
-//                        processedComparableData = d2;
-//
-//                    } catch (NumberFormatException ex2) {
-//
-//                        try {
-//
-//                            LocalDateTime dateTime = cell.getLocalDateTimeCellValue();
-//                            processedData = String.valueOf(dateTime);
-//                            processedComparableData = dateTime;
-//
-//                        } catch (NumberFormatException ex3) {
-//
-//                            processedData = cell.getStringCellValue();
-//                            processedComparableData = processedData;
-//
-//                        }
-//                    }
-//                }
-//
-//                break;
-//
-//            case BOOLEAN:
-//
-//                boolean flag = cell.getBooleanCellValue();
-//                processedData = String.valueOf(flag);
-//                processedComparableData = flag;
-//
-//                break;
-//
-//            case STRING:
-//            case BLANK:
-//            case ERROR:
-//            default:
-//
-//                processedData = cell.getStringCellValue();
-//                processedComparableData = processedData;
-//
-//        }
-//        emptyCell = false;
-//
-//    }
-//    catch (NumberFormatException | IllegalStateException ex
-//
-//    
-//        ) {
-//
-//            LOGGER.log(Level.SEVERE, "Could not parse cell data - raw cell data = {0}", rawData);
-//        rawData = ERROR_CONDITION_NUMBER_FORMAT;
-//        processedData = ERROR_CONDITION_NUMBER_FORMAT;
-/**
- * @return the rawData
- */
-//public String getRawData() {
-//        return rawData;
-//    }
-/**
- *
- * @return
- */
-//    /**
-//     * @return the processedData
-//     */
-//    public String getProcessedData() {
-//        return processedData;
-//    }
-//
-//    /**
-//     *
-//     * @return
-//     */
-//    public Comparable getComparableProcessedData() {
-//        return processedComparableData;
-//    }
-//
-//    /**
-//     * @return the formula
-//     */
-////    public String getFormula() {
-////        return formula;
-////    }
-////
-////    /**
-////     * @return the style
-////     */
-////    public CellStyle getStyle() {
-////        return style;
-////    }
-//    /**
-//     * @return the numberData
-//     */
-//    public double getNumberData() {
-//        return numberData;
-//    }
-//    /**
-//     *
-//     * @return
-//     */
-//    public boolean getFlag() {
-//        return flag;
-//    }
-/**
- *
- * @return
- */
-//    @Override
-//    public String toString() {
-//        StringBuilder sb = new StringBuilder(100);
-//        sb.append("Raw data       = ");
-//        sb.append(rawData);
-//        sb.append('\n');
-//        sb.append("Processed data = ");
-//        sb.append(processedData);
-//        sb.append('\n');
-//        sb.append("Formula        = ");
-//        sb.append(formula);
-//        sb.append('\n');
-//        sb.append("Number data    = ");
-//        sb.append(numberData);
-//        sb.append('\n');
-//        sb.append("Flag           = ");
-//        sb.append(flag);
-//        sb.append('\n');
-//        sb.append("Style          = ");
-//        sb.append(style);
-//        sb.append('\n');
-//        return sb.toString();
-//    }
-
