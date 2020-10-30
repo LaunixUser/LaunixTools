@@ -13,7 +13,7 @@ public enum DataType {
 
     TypeString(""),
     TypeInteger(0),
-    TypeEmail("x@y"),
+    TypeEmail(""),
     TypeBoolean(false),
     TypeDouble(0.0d),
     TypeIntegerPercentage(0),
