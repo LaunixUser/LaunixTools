@@ -23,6 +23,7 @@
  */
 package org.ml.tools.excel;
 
+import org.ml.tools.DataType;
 import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -37,9 +38,9 @@ public class ExcelCellData {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelCellData.class.getName());
     public static final ExcelCellData EMPTY_CELL = new ExcelCellData();
-    public static final String ERROR_CONDITION_NUMBER_FORMAT = "ERROR-NUMBER-FORMAT";
-    public static final String ERROR_CONDITION_ILLEGAL_STATE = "ERROR-ILLEGAL-STATE";
-    public static final double ERROR_CONDITION_VALUE = Double.NEGATIVE_INFINITY;
+//    public static final String ERROR_CONDITION_NUMBER_FORMAT = "ERROR-NUMBER-FORMAT";
+//    public static final String ERROR_CONDITION_ILLEGAL_STATE = "ERROR-ILLEGAL-STATE";
+//    public static final double ERROR_CONDITION_VALUE = Double.NEGATIVE_INFINITY;
     private Cell cell;
     private boolean emptyCell = true;
     private final DataFormatter dataFormatter = new DataFormatter();

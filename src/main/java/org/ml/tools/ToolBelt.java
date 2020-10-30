@@ -53,7 +53,7 @@ import org.jdom2.input.SAXBuilder;
 public class ToolBelt {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
-    private static final Pattern MAP_PATTERN = Pattern.compile("\\(\\s*?\"(.+?)\"\\s*,\\s*\"(.+?)\"\\s*\\)");
+    private static final Pattern PATTERN = Pattern.compile("\\(\\s*?\"(.+?)\"\\s*,\\s*\"(.+?)\"\\s*\\)");
 
     /**
      *
@@ -227,9 +227,8 @@ public class ToolBelt {
      *
      * Input format looks like this:
      *
-     * &lt;property name="productMap"&gt; ("SOO" , "Product 1");
-     * ("Wc2000", "Product 2"); ("SEP", "Product 3")
-     * &lt;/property&gt;
+     * &lt;property name="productMap"&gt; ("SOO" , "Product 1"); ("Wc2000",
+     * "Product 2"); ("SEP", "Product 3") &lt;/property&gt;
      *
      * @param data The input string compliant with the format described above
      * @return
@@ -243,12 +242,39 @@ public class ToolBelt {
         String[] mapElements = data.split(";");
 
         for (String mapElement : mapElements) {
-            Matcher matcher = MAP_PATTERN.matcher(mapElement.trim());
+            Matcher matcher = PATTERN.matcher(mapElement.trim());
             if (matcher.matches()) {
                 map.put(matcher.group(1), matcher.group(2));
             }
         }
         return map;
+    }
+
+    /**
+     * This is similar to extractMap() but it retains the order in which the
+     * data appears in the source string
+     *
+     * @param data
+     * @return
+     */
+    public static List<String[]> extractList(String data) {
+        if (data == null) {
+            throw new IllegalArgumentException("data may not be null");
+        }
+
+        List list = new ArrayList<>();
+        String[] listElements = data.split(";");
+
+        for (String listElement : listElements) {
+            Matcher matcher = PATTERN.matcher(listElement.trim());
+            if (matcher.matches()) {
+                String[] s = new String[2];
+                s[0] = matcher.group(1);
+                s[1] = matcher.group(2);
+                list.add(s);
+            }
+        }
+        return list;
     }
 
 }
