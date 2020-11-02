@@ -5,22 +5,25 @@
  */
 package org.ml.tools;
 
+import static org.ml.tools.DataKind.*;
+
 /**
  *
  * @author osboxes
  */
 public enum DataType {
 
-    TypeString(""),
-    TypeInteger(0),
-    TypeEmail(""),
-    TypeBoolean(false),
-    TypeDouble(0.0d),
-    TypeIntegerPercentage(0),
-    TypeDoublePercentage(0.0d),
-    TypeUndefined("Undefined");
+    TypeString(StringKind, ""),
+    TypeInteger(NumericKind, 0),
+    TypeEmail(StringKind, ""),
+    TypeBoolean(BooleanKind, false),
+    TypeDouble(NumericKind, 0.0d),
+    TypeIntegerPercentage(NumericKind, 0),
+    TypeDoublePercentage(NumericKind, 0.0d),
+    TypeUndefined(StringKind, "Undefined");
 
     Comparable defaultValue;
+    DataKind dataKind;
 
     /**
      *
@@ -32,9 +35,18 @@ public enum DataType {
 
     /**
      *
+     * @return
+     */
+    public DataKind getDataKind() {
+        return dataKind;
+    }
+
+    /**
+     *
      * @param defaultValue
      */
-    DataType(Comparable defaultValue) {
+    DataType(DataKind dataKind, Comparable defaultValue) {
+        this.dataKind = dataKind;
         this.defaultValue = defaultValue;
     }
 }
