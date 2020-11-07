@@ -33,6 +33,9 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.ml.tools.FileType;
+import static org.ml.tools.FileType.XLSX;
+import static org.ml.tools.FileType.XLS;
 
 /**
  * @author osboxes
@@ -43,14 +46,14 @@ public class ExcelTools {
      * @param type
      * @return
      */
-    public static Workbook getNewWorkbook(ExcelFileType type) {
+    public static Workbook getNewWorkbook(FileType type) {
         if (type == null) {
             throw new NullPointerException("type may not be null");
         }
         switch (type) {
-            case xls:
+            case XLS:
                 return new HSSFWorkbook();
-            case xlsx:
+            case XLSX:
                 return new XSSFWorkbook();
             default:
                 throw new UnsupportedOperationException("Unknown / unsupported file type: " + type.toString());

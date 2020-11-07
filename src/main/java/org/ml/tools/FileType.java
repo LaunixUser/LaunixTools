@@ -1,12 +1,12 @@
-package org.ml.tools.velocity;
+package org.ml.tools;
 
 /**
  *
  * @author Dr. Matthias Laux
  */
-public enum VelocityFileType {
+public enum FileType {
 
-    html(".html"), txt(".txt");
+    HTML(".html"), TXT(".txt"), XLSX(".xlsx"), XLS(".xls");
 
     private String extension = "";
 
@@ -14,7 +14,7 @@ public enum VelocityFileType {
      *
      * @param extension
      */
-    VelocityFileType(String extension) {
+    FileType(String extension) {
         this.extension = extension;
     }
 

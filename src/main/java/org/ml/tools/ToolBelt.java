@@ -35,9 +35,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -245,6 +247,32 @@ public class ToolBelt {
             Matcher matcher = PATTERN.matcher(mapElement.trim());
             if (matcher.matches()) {
                 map.put(matcher.group(1), matcher.group(2));
+            }
+        }
+        return map;
+    }
+
+    /**
+     *
+     * @param data
+     * @return
+     */
+    public static Map<String, Set<String>> extractMapSet(String data) {
+        if (data == null) {
+            throw new IllegalArgumentException("data may not be null");
+        }
+
+        Map<String, Set<String>> map = new TreeMap<>();
+        String[] mapElements = data.split(";");
+
+        for (String mapElement : mapElements) {
+            Matcher matcher = PATTERN.matcher(mapElement.trim());
+            if (matcher.matches()) {
+                String key = matcher.group(1);
+                if (!map.containsKey(key)) {
+                    map.put(key, new HashSet<>());
+                }
+                map.get(key).add(matcher.group(2));
             }
         }
         return map;

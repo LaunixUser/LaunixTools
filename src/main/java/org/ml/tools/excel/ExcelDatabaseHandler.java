@@ -46,6 +46,7 @@ import static org.apache.poi.ss.usermodel.CellType.STRING;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.ml.tools.FileType;
 
 /**
  *
@@ -54,7 +55,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 public class ExcelDatabaseHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelDatabaseHandler.class.getName());
-    private ConnectionData connectionData ;
+    private ConnectionData connectionData;
 
     /**
      *
@@ -94,7 +95,7 @@ public class ExcelDatabaseHandler {
         }
 
         //.... Process each table into a separate sheet
-        Workbook workbook = ExcelTools.getNewWorkbook(ExcelFileType.xlsx);
+        Workbook workbook = ExcelTools.getNewWorkbook(FileType.XLSX);
         for (String tableName : tableNames) {
             if (databaseTableNames.contains(tableName)) {
                 addSheet(workbook, tableName, metadata, connection);
@@ -135,7 +136,7 @@ public class ExcelDatabaseHandler {
         //.... Process each table into a separate workbook
         Map<String, Workbook> workbooks = new HashMap<>();
         for (String tableName : tableNames) {
-            Workbook workbook = ExcelTools.getNewWorkbook(ExcelFileType.xlsx);
+            Workbook workbook = ExcelTools.getNewWorkbook(FileType.XLSX);
             if (databaseTableNames.contains(tableName)) {
                 addSheet(workbook, tableName, metadata, connection);
                 workbooks.put(tableName, workbook);
@@ -308,9 +309,9 @@ public class ExcelDatabaseHandler {
         sb.append(tableName);
         sb.append(" (");
         for (int k = 0; k < columnNames.length; k++) {
-   //         sb.append("'");
+            //         sb.append("'");
             sb.append(columnNames[k]);
-     //       sb.append("'");
+            //       sb.append("'");
             switch (cellTypes[k]) {
                 case STRING:
                     sb.append(" VARCHAR(");
