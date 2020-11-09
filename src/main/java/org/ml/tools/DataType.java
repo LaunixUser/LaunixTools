@@ -16,6 +16,7 @@ public enum DataType {
     TypeString(StringKind, ""),
     TypeInteger(NumericKind, 0),
     TypeEmail(StringKind, ""),
+    TypeURL(StringKind, ""),
     TypeBoolean(BooleanKind, false),
     TypeDouble(NumericKind, 0.0d),
     TypeIntegerPercentage(NumericKind, 0),
