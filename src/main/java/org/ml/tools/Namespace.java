@@ -23,6 +23,7 @@
  */
 package org.ml.tools;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,9 @@ import java.util.List;
  *
  * @author Dr. Matthias Laux
  */
-public class Namespace implements Comparable<Namespace> {
+public class Namespace implements Comparable<Namespace>, Serializable {
 
+    static final long serialVersionUID = 1127987667L;
     private String id;
     private int hashCode = 0;
     private static final char SEPARATOR_CHAR = ':';

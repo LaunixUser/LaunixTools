@@ -23,6 +23,7 @@
  */
 package org.ml.tools;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,8 +33,9 @@ import org.jdom2.Element;
  *
  * @author Dr. Matthias Laux
  */
-public class PropertyManager {
+public class PropertyManager implements Serializable {
 
+    static final long serialVersionUID = 0427567567L;
     public final static ResolutionPolicy DEFAULT_RESOLUTION_POLICY = ResolutionPolicy.ALL_NAMESPACES;
     public final static Namespace DEFAULT_NAMESPACE = new Namespace("default_namespace_do_not_use_elsewhere ##$$%%");
     public final static String DEFAULT_MACRO_PATTERN = "##(.+?)##";
