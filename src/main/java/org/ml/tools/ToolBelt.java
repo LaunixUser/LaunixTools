@@ -35,6 +35,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,8 @@ import org.jdom2.input.SAXBuilder;
 public class ToolBelt {
 
     public static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
-    private static final Pattern PATTERN = Pattern.compile("\\(\\s*?\"(.+?)\"\\s*,\\s*\"(.+?)\"\\s*\\)");
+    private static final Pattern MAP_PATTERN = Pattern.compile("\\(\\s*?\"(.+?)\"\\s*,\\s*\"(.+?)\"\\s*\\)");
+    private static final Pattern LIST_PATTERN = Pattern.compile("\"(.+?)\"");
 
     /**
      *
@@ -244,7 +246,7 @@ public class ToolBelt {
         String[] mapElements = data.split(";");
 
         for (String mapElement : mapElements) {
-            Matcher matcher = PATTERN.matcher(mapElement.trim());
+            Matcher matcher = MAP_PATTERN.matcher(mapElement.trim());
             if (matcher.matches()) {
                 map.put(matcher.group(1), matcher.group(2));
             }
@@ -266,7 +268,7 @@ public class ToolBelt {
         String[] mapElements = data.split(";");
 
         for (String mapElement : mapElements) {
-            Matcher matcher = PATTERN.matcher(mapElement.trim());
+            Matcher matcher = MAP_PATTERN.matcher(mapElement.trim());
             if (matcher.matches()) {
                 String key = matcher.group(1);
                 if (!map.containsKey(key)) {
@@ -285,21 +287,48 @@ public class ToolBelt {
      * @param data
      * @return
      */
-    public static List<String[]> extractList(String data) {
+    public static List<String[]> extractMapAsList(String data) {
         if (data == null) {
             throw new IllegalArgumentException("data may not be null");
         }
 
-        List list = new ArrayList<>();
+        List<String[]> list = new ArrayList<>();
         String[] listElements = data.split(";");
 
         for (String listElement : listElements) {
-            Matcher matcher = PATTERN.matcher(listElement.trim());
+            Matcher matcher = MAP_PATTERN.matcher(listElement.trim());
             if (matcher.matches()) {
                 String[] s = new String[2];
                 s[0] = matcher.group(1);
                 s[1] = matcher.group(2);
                 list.add(s);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Input string format: comma-separated list of strings within apostrophe,
+     * surrounded by ()
+     *
+     * Example: ( "a", "b", "c" )
+     *
+     * @param data
+     * @return
+     */
+    public static List<String> extractList(String data) {
+        if (data == null) {
+            throw new IllegalArgumentException("data may not be null");
+        }
+
+        List<String> list = new ArrayList<>();
+
+        String d = data.trim();
+        String[] listElements = d.substring(1, d.length() - 2).split(",");
+        for (String listElement : listElements) {
+            Matcher matcher = LIST_PATTERN.matcher(listElement.trim());
+            if (matcher.matches()) {
+                list.add(matcher.group(1));
             }
         }
         return list;
