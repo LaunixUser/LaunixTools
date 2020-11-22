@@ -189,6 +189,7 @@ public class ExcelCellData {
 
         switch (cellType) {
             case NUMERIC:
+
                 switch (targetDataType) {
                     case TypeDouble:
                         return (Double) cell.getNumericCellValue();
@@ -198,10 +199,14 @@ public class ExcelCellData {
                         return (int) cell.getNumericCellValue();
                     case TypeIntegerPercentage:
                         return  (int)Math.round(100.0d * cell.getNumericCellValue());
+                    case TypeString:
+                        return String.valueOf(cell.getNumericCellValue());
                     default:
                         throw new UnsupportedOperationException("Can not extract " + targetDataType + " from raw data " + rawData);
                 }
+
             case BOOLEAN:
+
                 switch (targetDataType) {
                     case TypeBoolean:
                         return (Boolean) cell.getBooleanCellValue();
@@ -212,9 +217,13 @@ public class ExcelCellData {
                     default:
                         throw new UnsupportedOperationException("Can not extract " + targetDataType + " from raw data " + rawData);
                 }
+
             case BLANK:
+
                 return targetDataType.getDefaultValue();
+
             case STRING:
+
                 String s = cell.getStringCellValue().trim();
                 switch (targetDataType) {
                     case TypeDouble:
@@ -259,11 +268,17 @@ public class ExcelCellData {
                     default:
                         throw new UnsupportedOperationException("Can not extract " + targetDataType + " from raw data " + rawData);
                 }
+
             case ERROR:
+
             case _NONE:
+
                 throw new UnsupportedOperationException("Unsupported POI cell type: " + cell.getCellType());
+
             default:
+
                 throw new UnsupportedOperationException("Unknown POI cell type: " + cell.getCellType());
+
         }
     }
 

@@ -6,7 +6,7 @@ package org.ml.tools;
  */
 public enum FileType {
 
-    HTML(".html"), TXT(".txt"), XLSX(".xlsx"), XLS(".xls");
+    HTML(".html"), TXT(".txt"), XLSX(".xlsx"), XLS(".xls"), JSON(".json");
 
     private String extension = "";
 

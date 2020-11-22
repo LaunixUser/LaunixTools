@@ -243,7 +243,7 @@ public class ToolBelt {
         }
 
         Map<String, String> map = new TreeMap<>();
-        String[] mapElements = data.split(";");
+        String[] mapElements = data.trim().split(";");
 
         for (String mapElement : mapElements) {
             Matcher matcher = MAP_PATTERN.matcher(mapElement.trim());
@@ -265,7 +265,7 @@ public class ToolBelt {
         }
 
         Map<String, Set<String>> map = new TreeMap<>();
-        String[] mapElements = data.split(";");
+        String[] mapElements = data.trim().split(";");
 
         for (String mapElement : mapElements) {
             Matcher matcher = MAP_PATTERN.matcher(mapElement.trim());
@@ -293,7 +293,7 @@ public class ToolBelt {
         }
 
         List<String[]> list = new ArrayList<>();
-        String[] listElements = data.split(";");
+        String[] listElements = data.trim().split(";");
 
         for (String listElement : listElements) {
             Matcher matcher = MAP_PATTERN.matcher(listElement.trim());
@@ -324,7 +324,7 @@ public class ToolBelt {
         List<String> list = new ArrayList<>();
 
         String d = data.trim();
-        String[] listElements = d.substring(1, d.length() - 2).split(",");
+        String[] listElements = d.substring(1, d.length() - 1).split(",");
         for (String listElement : listElements) {
             Matcher matcher = LIST_PATTERN.matcher(listElement.trim());
             if (matcher.matches()) {
