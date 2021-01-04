@@ -22,6 +22,6 @@ dependencies {
             [group: 'org.apache.poi', name: 'ooxml-schemas', version: '[1.4,)'],
             [group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.0'],
             [group: 'org.jdom', name: 'jdom2', version: '[2.0,)'],
-            [group: 'org.ml', name: 'options', version: '[2.0,)']
+            [group: 'org.ml', name: 'options', version: '[3.0,)']
     )
 }
