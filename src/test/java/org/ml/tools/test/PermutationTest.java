@@ -65,7 +65,7 @@ public class PermutationTest {
                 p = new Permutations();
                 int[] inp = new int[4];
                 inp[0] = 0;
-                inp[1] = 17;
+                inp[1] = 12;
                 inp[2] = 28;
                 inp[3] = 35;
                 int[][] r1 = p.generate(inp);
