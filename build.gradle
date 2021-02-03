@@ -16,9 +16,14 @@ repositories {
 
 dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile (
-            [group: 'org.apache.poi', name: 'poi', version: '[4.1,)'],
-            [group: 'org.apache.poi', name: 'poi-ooxml', version: '[4.1,)'],
+    compile(
+            // Currently newer versions are disabled due to a regression bug
+            //
+            //            [group: 'org.apache.poi', name: 'poi', version: '[5.0,)'],
+            //          [group: 'org.apache.poi', name: 'poi-ooxml', version: '[5.0,)'],
+            //
+            [group: 'org.apache.poi', name: 'poi', version: '[4.1.2]'],
+            [group: 'org.apache.poi', name: 'poi-ooxml', version: '[4.1.2]'],
             [group: 'org.apache.poi', name: 'ooxml-schemas', version: '[1.4,)'],
             [group: 'org.apache.velocity', name: 'velocity-engine-core', version: '2.0'],
             [group: 'org.jdom', name: 'jdom2', version: '[2.0,)'],

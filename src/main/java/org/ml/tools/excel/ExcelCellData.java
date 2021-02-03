@@ -23,12 +23,14 @@
  */
 package org.ml.tools.excel;
 
-import org.ml.tools.DataType;
-import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.ml.tools.DataType;
 import org.ml.tools.logging.LoggerFactory;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -224,7 +226,19 @@ public class ExcelCellData {
 
             case STRING:
 
-                String s = cell.getStringCellValue().trim();
+                LOGGER.log(Level.INFO, "Type1: + " + cell.getCellType());
+                if (cell.getCellType().equals(CellType.FORMULA)) {
+                    LOGGER.log(Level.INFO, "Type2: + " + cell.getCachedFormulaResultType());
+                    LOGGER.log(Level.INFO, "Type3: + " + cell.getCellFormula());
+                    LOGGER.log(Level.INFO, "Type4: + " + cell.getClass());
+                }
+                String s = "ff";
+                try {
+                     s = cell.getStringCellValue().trim();
+                } catch (Exception exp) {
+                    System.out.println(exp.getMessage());
+                    exp.printStackTrace();
+                }
                 switch (targetDataType) {
                     case TypeDouble:
                         int a1 = 0;   // Dummy for correct Netbeans formatting

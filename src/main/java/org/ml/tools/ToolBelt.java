@@ -23,34 +23,19 @@
  */
 package org.ml.tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
- *
  * @author Dr. Matthias Laux
  */
 public class ToolBelt {
@@ -68,7 +53,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param fileName
      * @param charSet
      * @return
@@ -82,7 +66,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param file
      * @param charSet
      * @return
@@ -102,7 +85,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param fileName
      * @return
      * @throws FileNotFoundException
@@ -112,7 +94,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param file
      * @return
      * @throws FileNotFoundException
@@ -122,7 +103,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param propertiesFile
      * @return
      * @throws IOException
@@ -141,7 +121,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param properties
      * @param propertiesFile
      * @throws IOException
@@ -159,7 +138,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param properties
      * @param propertiesFileName
      * @throws IOException
@@ -172,7 +150,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param sourceElement
      * @return
      * @throws JDOMException
@@ -203,7 +180,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param inputString
      * @param chars
      * @return
@@ -228,9 +204,9 @@ public class ToolBelt {
 
     /**
      * Extract a map from a property string
-     *
+     * <p>
      * Input format looks like this:
-     *
+     * <p>
      * &lt;property name="productMap"&gt; ("SOO" , "Product 1"); ("Wc2000",
      * "Product 2"); ("SEP", "Product 3") &lt;/property&gt;
      *
@@ -255,7 +231,6 @@ public class ToolBelt {
     }
 
     /**
-     *
      * @param data
      * @return
      */
@@ -310,7 +285,7 @@ public class ToolBelt {
     /**
      * Input string format: comma-separated list of strings within apostrophe,
      * surrounded by ()
-     *
+     * <p>
      * Example: ( "a", "b", "c" )
      *
      * @param data
@@ -324,11 +299,13 @@ public class ToolBelt {
         List<String> list = new ArrayList<>();
 
         String d = data.trim();
-        String[] listElements = d.substring(1, d.length() - 1).split(",");
-        for (String listElement : listElements) {
-            Matcher matcher = LIST_PATTERN.matcher(listElement.trim());
-            if (matcher.matches()) {
-                list.add(matcher.group(1));
+        if (d.length() > 0) {    // Empty string returns an empty list
+            String[] listElements = d.substring(1, d.length() - 1).split(",");
+            for (String listElement : listElements) {
+                Matcher matcher = LIST_PATTERN.matcher(listElement.trim());
+                if (matcher.matches()) {
+                    list.add(matcher.group(1));
+                }
             }
         }
         return list;
