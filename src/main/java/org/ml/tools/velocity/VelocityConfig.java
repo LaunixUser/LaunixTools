@@ -23,15 +23,15 @@
  */
 package org.ml.tools.velocity;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.ml.tools.Namespace;
-import org.ml.tools.PropertyManager;
-import org.ml.tools.logging.LoggerFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.ml.tools.Namespace;
+import org.ml.tools.PropertyManager;
+import org.ml.tools.logging.LoggerFactory;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A target for multiple output files using the same template
@@ -54,7 +54,7 @@ public class VelocityConfig {
      *
      */
     public enum OptionalKey {
-        templateDirectory, inputEncoding
+        templateDirectory, inputEncoding, templateEncoding
     }
 
     /**
@@ -97,9 +97,15 @@ public class VelocityConfig {
             velocityEngine.setProperty(RuntimeConstants.INPUT_ENCODING, propertyManager.getProperty(namespace, OptionalKey.inputEncoding));
         }
 
+        //.... Override default (UTF-8) if desired for the template encoding
+        String templateEncoding = RuntimeConstants.ENCODING_DEFAULT;
+        if (propertyManager.containsProperty(namespace, OptionalKey.templateEncoding)) {
+            templateEncoding = propertyManager.getProperty(namespace, OptionalKey.templateEncoding);
+        }
+
         velocityEngine.init();
 
-        template = velocityEngine.getTemplate(templateName);
+        template = velocityEngine.getTemplate(templateName, templateEncoding);
     }
 
     /**
